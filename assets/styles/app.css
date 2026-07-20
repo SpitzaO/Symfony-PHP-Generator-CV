@@ -1,3 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .card { @apply rounded-2xl bg-white ring-1 ring-slate-200/70 shadow-sm; }
+
+    .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-60; }
+    .btn-sm { @apply px-3 py-1.5 text-xs; }
+    .btn-primary { @apply btn bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-sm shadow-blue-600/20 hover:from-blue-500 hover:to-cyan-500 hover:shadow-md focus-visible:ring-blue-500; }
+    .btn-ghost { @apply btn bg-white text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:ring-blue-500; }
+    .btn-danger { @apply btn bg-white text-red-600 ring-1 ring-inset ring-red-200 hover:bg-red-50 focus-visible:ring-red-500; }
+
+    .icon-btn { @apply inline-grid h-9 w-9 place-items-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500; }
+
+    .input { @apply block w-full rounded-xl border-0 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 transition focus:ring-2 focus:ring-inset focus:ring-blue-500; }
+    .field-label { @apply mb-1.5 block text-sm font-medium text-slate-700; }
+
+    .badge { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset; }
+    .badge-blue { @apply badge bg-blue-50 text-blue-700 ring-blue-200; }
+    .badge-slate { @apply badge bg-slate-100 text-slate-600 ring-slate-200; }
+    .badge-emerald { @apply badge bg-emerald-50 text-emerald-700 ring-emerald-200; }
+}
+
+:root {
+    color-scheme: light;
+}
+
 body {
-    background-color: skyblue;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }

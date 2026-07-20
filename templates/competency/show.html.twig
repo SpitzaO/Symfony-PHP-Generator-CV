@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ competency.name }}{% endblock %}
+
+{% block body %}
+    <div class="mx-auto max-w-3xl space-y-6">
+        <a href="{{ path('app_competency_index') }}" class="inline-flex items-center gap-1 text-sm font-medium text-slate-500 transition hover:text-slate-900">
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" /></svg>
+            Back to competencies
+        </a>
+
+        <div class="card overflow-hidden">
+            <div class="border-b border-slate-100 bg-slate-50/60 px-6 py-5 sm:px-8">
+                <h1 class="text-xl font-bold tracking-tight text-slate-900">{{ competency.name }}</h1>
+                <p class="mt-1 text-xs text-slate-400">{{ competency.items|length }} {{ competency.items|length == 1 ? 'item' : 'items' }}</p>
+            </div>
+            {% if competency.items|length > 0 %}
+                <dl class="divide-y divide-slate-100">
+                    {% for item in competency.items %}
+                        <div class="grid grid-cols-1 gap-1 px-6 py-4 sm:grid-cols-3 sm:px-8">
+                            <dt class="text-sm font-medium text-slate-900">{{ item.name }}</dt>
+                            <dd class="whitespace-pre-line text-sm leading-relaxed text-slate-600 sm:col-span-2">{{ item.description ?: '—' }}</dd>
+                        </div>
+                    {% endfor %}
+                </dl>
+            {% else %}
+                <p class="px-6 py-6 text-sm text-slate-400 sm:px-8">No items yet. Edit this competency to add some.</p>
+            {% endif %}
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+            <a href="{{ path('app_competency_edit', {'id': competency.id}) }}" class="btn-primary">Edit</a>
+            <a href="{{ path('app_competency_index') }}" class="btn-ghost">Back</a>
+            <div class="ml-auto">{{ include('_delete_form.html.twig', {delete_path: 'app_competency_delete', id: competency.id}) }}</div>
+        </div>
+    </div>
+{% endblock %}

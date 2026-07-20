@@ -1,24 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="h-full scroll-smooth">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}CV{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><rect width=%22128%22 height=%22128%22 rx=%2228%22 fill=%22%232563eb%22/><text y=%221em%22 x=%2250%25%22 text-anchor=%22middle%22 dy=%2230%22 font-size=%2270%22 font-family=%22sans-serif%22 font-weight=%22bold%22 fill=%22%23fff%22>CV</text></svg>">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
         {% block stylesheets %}
         {% endblock %}
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
-
-        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
-        {% if frankenphpHotReload %}
-        <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
-        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
-        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
-        {% endif %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="h-full bg-slate-50 font-sans text-slate-700 antialiased selection:bg-blue-100 selection:text-blue-900">
+        <div class="relative flex min-h-full flex-col">
+            <div aria-hidden="true" class="pointer-events-none fixed inset-x-0 top-0 -z-10 h-72 bg-gradient-to-b from-blue-100/70 via-slate-50/0 to-transparent"></div>
+
+            <main class="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+                {% for type, messages in app.flashes %}
+                    {% for message in messages %}
+                        {% set tone = type == 'success' ? 'bg-emerald-50 text-emerald-800 ring-emerald-200' : (type in ['error', 'danger'] ? 'bg-red-50 text-red-800 ring-red-200' : 'bg-blue-50 text-blue-800 ring-blue-200') %}
+                        <div class="mb-6 flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium ring-1 ring-inset {{ tone }}">
+                            <svg class="h-5 w-5 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+                {% block body %}{% endblock %}
+            </main>
+
+            <footer class="border-t border-slate-200/70 py-6">
+                <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 text-xs text-slate-400 sm:flex-row sm:px-6 lg:px-8">
+                    <p>&copy; {{ 'now'|date('Y') }} My Resume. Built with Symfony &amp; Tailwind CSS.</p>
+                </div>
+            </footer>
+        </div>
     </body>
 </html>

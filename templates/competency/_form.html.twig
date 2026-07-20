@@ -1,0 +1,46 @@
+{{ form_start(form) }}
+    {% do form.items.setRendered %}
+    {{ form_widget(form) }}
+
+    {# ---- Items (name → description) dynamic collection ---- #}
+    {% set item_prototype %}
+        <div class="flex flex-1 items-center gap-2">
+            <div class="w-2/5 flex-none">{{ form_widget(form.items.vars.prototype.name) }}</div>
+            <div class="flex-1">{{ form_widget(form.items.vars.prototype.description) }}</div>
+        </div>
+    {% endset %}
+    <div class="mt-5"
+         data-controller="form-collection"
+         data-form-collection-index-value="{{ form.items|length }}"
+         data-form-collection-prototype-value="{{ item_prototype|e('html_attr') }}">
+        <span class="field-label">Items</span>
+        <p class="-mt-1 mb-2 text-xs text-slate-400">Name &rarr; description, e.g. Achiever &rarr; what it means. Description is optional.</p>
+        <div data-form-collection-target="entries" class="space-y-2">
+            {% for item in form.items %}
+                <div class="flex items-center gap-2" data-form-collection-target="entry">
+                    <div class="flex-1">
+                        <div class="flex flex-1 items-center gap-2">
+                            <div class="w-2/5 flex-none">{{ form_widget(item.name) }}</div>
+                            <div class="flex-1">{{ form_widget(item.description) }}</div>
+                        </div>
+                    </div>
+                    <button type="button" data-action="form-collection#remove" class="icon-btn flex-none text-slate-400 hover:bg-red-50 hover:text-red-600" aria-label="Remove">
+                        <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+        <button type="button" data-action="form-collection#add" class="btn-ghost btn-sm mt-3">
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/></svg>
+            Add item
+        </button>
+    </div>
+
+    <div class="mt-6 flex items-center gap-3 border-t border-slate-100 pt-6">
+        <button type="submit" class="btn-primary">
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>
+            {{ button_label|default('Save') }}
+        </button>
+        <a href="{{ path('app_competency_index') }}" class="btn-ghost">Cancel</a>
+    </div>
+{{ form_end(form) }}

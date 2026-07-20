@@ -1,0 +1,72 @@
+{% use 'form_div_layout.html.twig' %}
+
+{%- block form_row -%}
+    <div class="{{ row_attr.class|default('mb-5') }}">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+        {{- form_help(form) -}}
+    </div>
+{%- endblock form_row -%}
+
+{%- block form_label -%}
+    {%- set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' field-label')|trim }) -%}
+    {{- parent() -}}
+{%- endblock form_label -%}
+
+{%- block form_widget_simple -%}
+    {%- if type is not defined or type != 'hidden' -%}
+        {%- set has_error = errors|default([])|length > 0 -%}
+        {%- set attr = attr|merge({ class: (attr.class|default('') ~ ' input' ~ (has_error ? ' ring-red-400 focus:ring-red-500' : ''))|trim }) -%}
+    {%- endif -%}
+    {{- parent() -}}
+{%- endblock form_widget_simple -%}
+
+{%- block textarea_widget -%}
+    {%- set has_error = errors|default([])|length > 0 -%}
+    {%- set attr = attr|merge({ class: (attr.class|default('') ~ ' input min-h-[8rem]' ~ (has_error ? ' ring-red-400 focus:ring-red-500' : ''))|trim }) -%}
+    {{- parent() -}}
+{%- endblock textarea_widget -%}
+
+{%- block choice_widget_collapsed -%}
+    {%- set has_error = errors|default([])|length > 0 -%}
+    {%- set attr = attr|merge({ class: (attr.class|default('') ~ ' input cursor-pointer pr-10' ~ (has_error ? ' ring-red-400 focus:ring-red-500' : ''))|trim }) -%}
+    {{- parent() -}}
+{%- endblock choice_widget_collapsed -%}
+
+{%- block checkbox_widget -%}
+    {%- set attr = attr|merge({ class: (attr.class|default('') ~ ' h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500')|trim }) -%}
+    {{- parent() -}}
+{%- endblock checkbox_widget -%}
+
+{%- block radio_widget -%}
+    {%- set attr = attr|merge({ class: (attr.class|default('') ~ ' h-4 w-4 border-slate-300 text-blue-600 focus:ring-blue-500')|trim }) -%}
+    {{- parent() -}}
+{%- endblock radio_widget -%}
+
+{%- block button_widget -%}
+    {%- set attr = attr|merge({ class: (attr.class|default('btn-primary'))|trim }) -%}
+    {{- parent() -}}
+{%- endblock button_widget -%}
+
+{%- block form_help -%}
+    {%- set help = help|default('') -%}
+    {%- if help is not empty -%}
+        <p class="mt-1.5 text-xs text-slate-500">
+            {{- help_html|default(false) ? (help|trans(help_translation_parameters|default({}), translation_domain))|raw : help|trans(help_translation_parameters|default({}), translation_domain) -}}
+        </p>
+    {%- endif -%}
+{%- endblock form_help -%}
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <ul class="mt-1.5 space-y-1">
+            {%- for error in errors -%}
+                <li class="flex items-start gap-1.5 text-sm text-red-600">
+                    <svg class="mt-0.5 h-4 w-4 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" /></svg>
+                    <span>{{ error.message }}</span>
+                </li>
+            {%- endfor -%}
+        </ul>
+    {%- endif -%}
+{%- endblock form_errors -%}

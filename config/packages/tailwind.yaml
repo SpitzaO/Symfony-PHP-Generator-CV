@@ -1,0 +1,3 @@
+symfonycasts_tailwind:
+    # Pin the standalone Tailwind CLI (v3) that matches this project's config/component layer.
+    binary_version: 'v3.4.17'

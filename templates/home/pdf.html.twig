@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <style>
+        @page { margin: 0; }
+        * { margin: 0; padding: 0; }
+        body { font-family: 'DejaVu Sans', sans-serif; font-size: 9pt; line-height: 1.5; color: #334155; background-color: #f1f5f9; }
+        .page { padding: 8mm; }
+
+        /* ---- two-column layout ---- */
+        .layout { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .col-left { width: 34%; vertical-align: top; padding-right: 3mm; }
+        .col-right { width: 66%; vertical-align: top; padding-left: 3mm; }
+
+        /* ---- card ---- */
+        .card { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px; margin-bottom: 6mm; }
+        .pad { padding: 5mm 5.5mm; }
+
+        /* ---- section header (dot + label) ---- */
+        /* Dompdf ignores vertical-align on table cells here, so the dot is positioned
+           absolutely instead. `top` is tuned against the rendered label box. */
+        .sec { position: relative; margin-bottom: 4mm; padding-left: 12px; font-size: 8pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1.2px; color: #64748b; }
+        .dot { position: absolute; left: 0; top: 9.5px; width: 6px; height: 6px; border-radius: 50%; }
+
+        /* ---- profile card ---- */
+        .banner { height: 20mm; background-color: #0891b2; background-image: linear-gradient(to right, #2563eb, #0891b2, #0d9488); border-radius: 14px 14px 0 0; }
+        .profile-body { padding: 0 5.5mm 5.5mm 5.5mm; }
+        .avatar {
+            display: inline-block; width: 22mm; height: 22mm; margin-top: -11mm; margin-bottom: 3.5mm;
+            background-color: #3b82f6; background-image: linear-gradient(to bottom, #3b82f6, #06b6d4);
+            border: 3px solid #ffffff; border-radius: 12px;
+        }
+        .avatar-in { width: 22mm; height: 22mm; border-collapse: collapse; }
+        .avatar-in td { height: 22mm; vertical-align: middle; text-align: center; color: #ffffff; font-size: 20pt; font-weight: bold; }
+        .avatar-img { width: 22mm; height: 22mm; margin-top: -11mm; margin-bottom: 3.5mm; border: 3px solid #ffffff; border-radius: 12px; }
+        .pname { font-size: 15pt; font-weight: bold; color: #0f172a; letter-spacing: 0.3px; margin-bottom: 4mm; }
+
+        /* ---- contact (icon + value table) ---- */
+        .contact { width: 100%; border-collapse: collapse; }
+        .contact td { padding: 2.5px 0; vertical-align: middle; }
+        .contact .ci { width: 18px; vertical-align: middle; }
+        /* Auto margins centre the glyph in its column; the nudge offsets Dompdf seating
+           the image high against the value text. */
+        .contact .ci img { display: block; margin: 0 auto; position: relative; top: 1.9pt; }
+        .contact .cv { font-size: 8.5pt; color: #475569; padding-left: 5px; word-wrap: break-word; }
+
+        /* ---- skills ---- */
+        .skill-row { margin-bottom: 3mm; }
+        .skill-n { font-size: 8.5pt; font-weight: bold; color: #334155; }
+        /* Pills: Dompdf seats text low inside an inline-block, so the vertical padding is
+           split unevenly to pull the label back onto the pill's centre line. */
+        .badge { display: inline-block; border-radius: 9px; padding: 0.32pt 8px 1.93pt 8px; font-size: 7pt; font-weight: bold; line-height: normal; }
+        .badge-emerald { background-color: #d1fae5; color: #047857; }
+
+        /* ---- competencies ---- */
+        .comp-g { margin-bottom: 3.5mm; }
+        .comp-n { font-size: 9pt; font-weight: bold; color: #0f172a; }
+        .comp-items { list-style: disc; padding-left: 4.5mm; margin-top: 1.5mm; }
+        .comp-items li { font-size: 8.5pt; color: #475569; margin-bottom: 1mm; }
+        .comp-d { color: #64748b; }
+
+        /* ---- interests chips ---- */
+        .chips { line-height: 2; }
+        .chip { display: inline-block; background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; border-radius: 11px; padding: 0.58pt 9px 2.42pt 9px; font-size: 8pt; line-height: normal; margin-right: 4px; }
+
+        /* ---- about ---- */
+        .about { font-size: 9pt; color: #334155; line-height: 1.6; }
+
+        /* ---- timeline (experience / education) ---- */
+        .tl-item { position: relative; padding-left: 6mm; border-left: 2px solid #e2e8f0; padding-bottom: 5mm; }
+        .tl-item.last { padding-bottom: 0.5mm; }
+        /* Ring is 8px + 2px border either side = 12px wide; left:-7px puts its centre on the
+           2px rail. top is tuned so the ring centres on the title line, not the item top. */
+        .tl-dot { position: absolute; left: -7px; top: 9.5px; width: 8px; height: 8px; border-radius: 50%; background-color: #ffffff; }
+        /* The rail is a border on the whole item, so it pokes out above the first ring;
+           this hides that stub. Sits before the ring in the markup so the ring paints over it. */
+        .tl-cap { position: absolute; left: -4px; top: -2px; width: 6px; height: 12px; background-color: #ffffff; }
+        .tl-head { width: 100%; border-collapse: collapse; }
+        .tl-head td { vertical-align: baseline; padding: 0; }
+        .tl-role { font-size: 10pt; font-weight: bold; color: #0f172a; }
+        /* Dompdf top-aligns these cells instead of honouring vertical-align: baseline, so the
+           smaller date rides ~3pt high. The padding drops it onto the title's baseline. */
+        .tl-head td.tl-date { font-size: 8pt; color: #94a3b8; text-align: right; white-space: nowrap; padding-top: 3.07pt; }
+        .tl-sub { font-size: 8.5pt; font-weight: bold; margin-top: 2px; }
+        .tl-loc { color: #94a3b8; font-weight: normal; }
+        .tl-desc { font-size: 8.5pt; color: #475569; margin-top: 2mm; line-height: 1.5; }
+    </style>
+</head>
+
+{%- macro sech(color, label) -%}
+<div class="sec"><span class="dot" style="background-color: {{ color }};"></span>{{ label }}</div>
+{%- endmacro -%}
+
+{%- macro ico(name) -%}
+{%- set paths = {
+    'mail': '<path d="M3 4a2 2 0 00-2 2v.01l9 5.4 9-5.4V6a2 2 0 00-2-2H3z"/><path d="M19 8.118l-9 5.4-9-5.4V14a2 2 0 002 2h14a2 2 0 002-2V8.118z"/>',
+    'phone': '<path fill-rule="evenodd" d="M2 3.5A1.5 1.5 0 013.5 2h1.148a1.5 1.5 0 011.465 1.175l.716 3.223a1.5 1.5 0 01-1.052 1.767l-.933.267c-.41.117-.643.555-.48.95a11.542 11.542 0 006.254 6.254c.395.163.833-.07.95-.48l.267-.933a1.5 1.5 0 011.767-1.052l3.223.716A1.5 1.5 0 0118 15.352V16.5a1.5 1.5 0 01-1.5 1.5H15c-7.18 0-13-5.82-13-13V3.5z" clip-rule="evenodd"/>',
+    'cal': '<path fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clip-rule="evenodd"/>'
+} -%}
+{%- set svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#94a3b8">' ~ paths[name] ~ '</svg>' -%}
+<img src="data:image/svg+xml,{{ svg|url_encode }}" width="13" height="13" alt="">
+{%- endmacro -%}
+
+<body>
+    {%- import _self as ui -%}
+    {% set initials = (profile.firstName|first ~ profile.lastName|first)|upper %}
+<div class="page">
+<table class="layout"><tr>
+
+    {# ================= LEFT ================= #}
+    <td class="col-left">
+
+        <div class="card">
+            <div class="banner"></div>
+            <div class="profile-body">
+                {% if photo %}
+                    <img src="{{ photo }}" class="avatar-img" alt="">
+                {% else %}
+                    <div class="avatar"><table class="avatar-in"><tr><td>{{ initials }}</td></tr></table></div>
+                {% endif %}
+                <div class="pname">{{ profile.firstName }} {{ profile.lastName }}</div>
+                <table class="contact">
+                    <tr><td class="ci">{{ ui.ico('mail') }}</td><td class="cv">{{ profile.email }}</td></tr>
+                    <tr><td class="ci">{{ ui.ico('phone') }}</td><td class="cv">{{ profile.phone }}</td></tr>
+                    {% if profile.birthDate %}<tr><td class="ci">{{ ui.ico('cal') }}</td><td class="cv">{{ profile.birthDate|date('F d, Y') }}</td></tr>{% endif %}
+                </table>
+            </div>
+        </div>
+
+        {% if profile.skills|length > 0 %}
+            <div class="card"><div class="pad">
+                {{ ui.sech('#84cc16', 'Skills') }}
+                {% for skill in profile.skills %}
+                    <div class="skill-row"><span class="skill-n">{{ skill.name }}</span> <span class="badge badge-emerald">{{ skill.level }}</span></div>
+                {% endfor %}
+            </div></div>
+        {% endif %}
+
+        {% if profile.competencies|length > 0 %}
+            <div class="card"><div class="pad">
+                {{ ui.sech('#f59e0b', 'Competencies') }}
+                {% for competency in profile.competencies %}
+                    <div class="comp-g">
+                        <div class="comp-n">{{ competency.name }}</div>
+                        {% if competency.items|length > 0 %}
+                            <ul class="comp-items">
+                                {% for item in competency.items %}
+                                    <li>{{ item.name }}{% if item.description %} <span class="comp-d">— {{ item.description }}</span>{% endif %}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div></div>
+        {% endif %}
+
+        {% if profile.interests|length > 0 %}
+            <div class="card"><div class="pad">
+                {{ ui.sech('#ea580c', 'Interests') }}
+                <div class="chips">{% for interest in profile.interests %}<span class="chip">{{ interest.name }}</span>{% endfor %}</div>
+            </div></div>
+        {% endif %}
+
+    </td>
+
+    {# ================= RIGHT ================= #}
+    <td class="col-right">
+
+        {% if profile.about %}
+            <div class="card"><div class="pad">
+                {{ ui.sech('#2563eb', 'About') }}
+                <div class="about">{{ profile.about|nl2br }}</div>
+            </div></div>
+        {% endif %}
+
+        {% if profile.experiences|length > 0 %}
+            <div class="card"><div class="pad">
+                {{ ui.sech('#06b6d4', 'Experience') }}
+                {% for experience in profile.experiences %}
+                    <div class="tl-item{{ loop.last ? ' last' : '' }}">
+                        {% if loop.first %}<span class="tl-cap"></span>{% endif %}
+                        <span class="tl-dot" style="border: 2px solid #06b6d4;"></span>
+                        <table class="tl-head"><tr>
+                            <td><span class="tl-role">{{ experience.position }}</span></td>
+                            <td class="tl-date">{{ experience.startDate ? experience.startDate|date('M Y') : '—' }} &ndash; {{ experience.endDate ? experience.endDate|date('M Y') : 'Present' }}</td>
+                        </tr></table>
+                        <div class="tl-sub" style="color:#2563eb;">{{ experience.company }}{% if experience.location %} <span class="tl-loc">· {{ experience.location }}</span>{% endif %}</div>
+                        {% if experience.description %}<div class="tl-desc">{{ experience.description|nl2br }}</div>{% endif %}
+                    </div>
+                {% endfor %}
+            </div></div>
+        {% endif %}
+
+        {% if profile.education|length > 0 %}
+            <div class="card"><div class="pad">
+                {{ ui.sech('#16a34a', 'Education') }}
+                {% for education in profile.education %}
+                    <div class="tl-item{{ loop.last ? ' last' : '' }}">
+                        {% if loop.first %}<span class="tl-cap"></span>{% endif %}
+                        <span class="tl-dot" style="border: 2px solid #16a34a;"></span>
+                        <table class="tl-head"><tr>
+                            <td><span class="tl-role">{{ education.schoolName }}</span></td>
+                            <td class="tl-date">{{ education.startDate ? education.startDate|date('M Y') : '—' }} &ndash; {{ education.endDate ? education.endDate|date('M Y') : 'Present' }}</td>
+                        </tr></table>
+                        {% if education.degree %}<div class="tl-sub" style="color:#15803d;">{{ education.degree }}</div>{% endif %}
+                        {% if education.location %}<div class="tl-desc" style="margin-top:1mm;">{{ education.location }}</div>{% endif %}
+                    </div>
+                {% endfor %}
+            </div></div>
+        {% endif %}
+
+    </td>
+</tr></table>
+</div>
+</body>
+</html>
