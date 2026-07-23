@@ -26,6 +26,9 @@ class Skill
     #[Assert\Length(max: 255)]
     private ?string $level = null;
 
+    #[ORM\Column(options: ['default' => 0])]
+    private int $sort = 0;
+
     #[ORM\ManyToOne(inversedBy: 'skills')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Profile $profile = null;
@@ -55,6 +58,18 @@ class Skill
     public function setLevel(string $level): static
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function getSort(): int
+    {
+        return $this->sort;
+    }
+
+    public function setSort(int $sort): static
+    {
+        $this->sort = $sort;
 
         return $this;
     }

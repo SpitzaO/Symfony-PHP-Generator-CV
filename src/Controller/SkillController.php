@@ -25,7 +25,7 @@ final class SkillController extends AbstractController
         return $this->render('skill/index.html.twig', [
             'skills' => $skillRepository->findBy(
                 ['profile' => $profileRepository->findMain()],
-                ['id' => 'ASC'],
+                ['sort' => 'ASC', 'id' => 'ASC'],
             ),
         ]);
     }
