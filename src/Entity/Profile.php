@@ -83,7 +83,7 @@ class Profile
      * @var Collection<int, Skill>
      */
     #[ORM\OneToMany(targetEntity: Skill::class, mappedBy: 'profile', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[ORM\OrderBy(['name' => 'ASC'])]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     private Collection $skills;
 
     /**
