@@ -7,8 +7,8 @@ namespace App\Controller;
 use App\Entity\Profile;
 use App\Form\ProfileType;
 use App\Repository\ProfileRepository;
+use App\Service\ProfilePhotoStorage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,21 +16,25 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/profile')]
+#[IsGranted('ROLE_ADMIN')]
 final class ProfileController extends AbstractController
 {
     public function __construct(
-        #[Autowire('%kernel.project_dir%/public/uploads/profiles')] private readonly string $photoDir,
-        private readonly SluggerInterface $slugger,
+        private readonly ProfilePhotoStorage $photoStorage,
     ) {
     }
 
     #[Route('/new', name: 'app_profile_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, ProfileRepository $profileRepository): Response
     {
+        // The app is single-profile by design: a second one would be saved but never
+        // shown, because findMain() always resolves to the lowest id.
+        if ($existing = $profileRepository->findMain()) {
+            return $this->redirectToRoute('app_profile_edit', ['id' => $existing->getId()]);
+        }
+
         $profile = new Profile();
         $form = $this->createForm(ProfileType::class, $profile);
         $form->handleRequest($request);
@@ -49,7 +53,6 @@ final class ProfileController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_profile_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Profile $profile, ProfileRepository $profileRepository): Response
     {
         $form = $this->createForm(ProfileType::class, $profile);
@@ -69,11 +72,10 @@ final class ProfileController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_profile_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
-    #[IsGranted('ROLE_ADMIN')]
     #[IsCsrfTokenValid('delete')]
     public function delete(Profile $profile, ProfileRepository $profileRepository): Response
     {
-        $this->removePhoto($profile);
+        $this->photoStorage->remove($profile->getPhotoFilename());
         $profileRepository->remove($profile, true);
 
         return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
@@ -86,22 +88,8 @@ final class ProfileController extends AbstractController
             return;
         }
 
-        $original = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $newFilename = $this->slugger->slug($original)->lower().'-'.uniqid().'.'.$file->guessExtension();
-
-        $file->move($this->photoDir, $newFilename);
-
-        // remove the previous photo, if any
-        $this->removePhoto($profile);
-
+        $newFilename = $this->photoStorage->store($file);
+        $this->photoStorage->remove($profile->getPhotoFilename());
         $profile->setPhotoFilename($newFilename);
-    }
-
-    private function removePhoto(Profile $profile): void
-    {
-        $filename = $profile->getPhotoFilename();
-        if ($filename && is_file($path = $this->photoDir.'/'.$filename)) {
-            @unlink($path);
-        }
     }
 }

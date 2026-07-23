@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Skill{% endblock %}
+{% block title %}Edytuj umiejętność{% endblock %}
 
 {% block body %}
     <div class="mx-auto max-w-2xl space-y-6">
         <div class="flex items-start justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Edit skill</h1>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Edytuj umiejętność</h1>
                 <p class="mt-1 text-sm text-slate-500">{{ skill.name }}</p>
             </div>
             {{ include('_delete_form.html.twig', {delete_path: 'app_skill_delete', id: skill.id}) }}
         </div>
         <div class="card p-6 sm:p-8">
-            {{ include('skill/_form.html.twig', {'button_label': 'Update'}) }}
+            {{ include('skill/_form.html.twig', {'button_label': 'Zaktualizuj'}) }}
         </div>
     </div>
 {% endblock %}

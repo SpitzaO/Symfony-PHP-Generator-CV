@@ -50,36 +50,43 @@ class Profile
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photoFilename = null;
 
+    // Every collection below owns the lifecycle of its entries: the child rows have a
+    // non-nullable profile_id, so detaching one from the collection has to delete it
+    // rather than orphan it. Without orphanRemoval the remove*() methods below would
+    // try to write a NULL profile_id and fail at flush time.
+
     /**
      * @var Collection<int, Education>
      */
-    #[ORM\OneToMany(targetEntity: Education::class, mappedBy: 'profile', cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: Education::class, mappedBy: 'profile', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['startDate' => 'DESC', 'id' => 'DESC'])]
     private Collection $education;
 
     /**
      * @var Collection<int, Experience>
      */
-    #[ORM\OneToMany(targetEntity: Experience::class, mappedBy: 'profile', cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: Experience::class, mappedBy: 'profile', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['startDate' => 'DESC', 'id' => 'DESC'])]
     private Collection $experiences;
 
     /**
      * @var Collection<int, Skill>
      */
-    #[ORM\OneToMany(targetEntity: Skill::class, mappedBy: 'profile', cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: Skill::class, mappedBy: 'profile', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['name' => 'ASC'])]
     private Collection $skills;
 
     /**
      * @var Collection<int, Interest>
      */
-    #[ORM\OneToMany(targetEntity: Interest::class, mappedBy: 'profile', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Interest::class, mappedBy: 'profile', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['name' => 'ASC'])]
     private Collection $interests;
 
     /**
      * @var Collection<int, Competency>
      */
-    #[ORM\OneToMany(targetEntity: Competency::class, mappedBy: 'profile', cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: Competency::class, mappedBy: 'profile', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $competencies;
 
     public function __construct()

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full scroll-smooth">
+<html lang="pl" class="h-full scroll-smooth">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}CV{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><rect width=%22128%22 height=%22128%22 rx=%2228%22 fill=%22%232563eb%22/><text y=%221em%22 x=%2250%25%22 text-anchor=%22middle%22 dy=%2230%22 font-size=%2270%22 font-family=%22sans-serif%22 font-weight=%22bold%22 fill=%22%23fff%22>CV</text></svg>">
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        {# No webfont CDN on purpose: this page is public, and a Google Fonts request
+           would hand every visitor's IP to a third party. Inter is used when the
+           visitor happens to have it installed; otherwise the system stack in
+           tailwind.config.js takes over. #}
 
         {% block stylesheets %}
         {% endblock %}
@@ -37,7 +38,7 @@
 
             <footer class="border-t border-slate-200/70 py-6">
                 <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 text-xs text-slate-400 sm:flex-row sm:px-6 lg:px-8">
-                    <p>&copy; {{ 'now'|date('Y') }} My Resume. Built with Symfony &amp; Tailwind CSS.</p>
+                    <p>&copy; {{ 'now'|date('Y') }} Moje CV. Zbudowane w Symfony i Tailwind CSS.</p>
                 </div>
             </footer>
         </div>

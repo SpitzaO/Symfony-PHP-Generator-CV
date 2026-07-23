@@ -123,14 +123,14 @@
                 <table class="contact">
                     <tr><td class="ci">{{ ui.ico('mail') }}</td><td class="cv">{{ profile.email }}</td></tr>
                     <tr><td class="ci">{{ ui.ico('phone') }}</td><td class="cv">{{ profile.phone }}</td></tr>
-                    {% if profile.birthDate %}<tr><td class="ci">{{ ui.ico('cal') }}</td><td class="cv">{{ profile.birthDate|date('F d, Y') }}</td></tr>{% endif %}
+                    {% if profile.birthDate %}<tr><td class="ci">{{ ui.ico('cal') }}</td><td class="cv">{{ profile.birthDate|date('d.m.Y') }}</td></tr>{% endif %}
                 </table>
             </div>
         </div>
 
         {% if profile.skills|length > 0 %}
             <div class="card"><div class="pad">
-                {{ ui.sech('#84cc16', 'Skills') }}
+                {{ ui.sech('#84cc16', 'Umiejętności') }}
                 {% for skill in profile.skills %}
                     <div class="skill-row"><span class="skill-n">{{ skill.name }}</span> <span class="badge badge-emerald">{{ skill.level }}</span></div>
                 {% endfor %}
@@ -139,7 +139,7 @@
 
         {% if profile.competencies|length > 0 %}
             <div class="card"><div class="pad">
-                {{ ui.sech('#f59e0b', 'Competencies') }}
+                {{ ui.sech('#f59e0b', 'Kompetencje') }}
                 {% for competency in profile.competencies %}
                     <div class="comp-g">
                         <div class="comp-n">{{ competency.name }}</div>
@@ -157,7 +157,7 @@
 
         {% if profile.interests|length > 0 %}
             <div class="card"><div class="pad">
-                {{ ui.sech('#ea580c', 'Interests') }}
+                {{ ui.sech('#ea580c', 'Zainteresowania') }}
                 <div class="chips">{% for interest in profile.interests %}<span class="chip">{{ interest.name }}</span>{% endfor %}</div>
             </div></div>
         {% endif %}
@@ -169,21 +169,21 @@
 
         {% if profile.about %}
             <div class="card"><div class="pad">
-                {{ ui.sech('#2563eb', 'About') }}
+                {{ ui.sech('#2563eb', 'O mnie') }}
                 <div class="about">{{ profile.about|nl2br }}</div>
             </div></div>
         {% endif %}
 
         {% if profile.experiences|length > 0 %}
             <div class="card"><div class="pad">
-                {{ ui.sech('#06b6d4', 'Experience') }}
+                {{ ui.sech('#06b6d4', 'Doświadczenie') }}
                 {% for experience in profile.experiences %}
                     <div class="tl-item{{ loop.last ? ' last' : '' }}">
                         {% if loop.first %}<span class="tl-cap"></span>{% endif %}
                         <span class="tl-dot" style="border: 2px solid #06b6d4;"></span>
                         <table class="tl-head"><tr>
                             <td><span class="tl-role">{{ experience.position }}</span></td>
-                            <td class="tl-date">{{ experience.startDate ? experience.startDate|date('M Y') : '—' }} &ndash; {{ experience.endDate ? experience.endDate|date('M Y') : 'Present' }}</td>
+                            <td class="tl-date">{{ experience.startDate ? experience.startDate|date('m.Y') : '—' }} &ndash; {{ experience.endDate ? experience.endDate|date('m.Y') : 'Obecnie' }}</td>
                         </tr></table>
                         <div class="tl-sub" style="color:#2563eb;">{{ experience.company }}{% if experience.location %} <span class="tl-loc">· {{ experience.location }}</span>{% endif %}</div>
                         {% if experience.description %}<div class="tl-desc">{{ experience.description|nl2br }}</div>{% endif %}
@@ -194,14 +194,14 @@
 
         {% if profile.education|length > 0 %}
             <div class="card"><div class="pad">
-                {{ ui.sech('#16a34a', 'Education') }}
+                {{ ui.sech('#16a34a', 'Wykształcenie') }}
                 {% for education in profile.education %}
                     <div class="tl-item{{ loop.last ? ' last' : '' }}">
                         {% if loop.first %}<span class="tl-cap"></span>{% endif %}
                         <span class="tl-dot" style="border: 2px solid #16a34a;"></span>
                         <table class="tl-head"><tr>
                             <td><span class="tl-role">{{ education.schoolName }}</span></td>
-                            <td class="tl-date">{{ education.startDate ? education.startDate|date('M Y') : '—' }} &ndash; {{ education.endDate ? education.endDate|date('M Y') : 'Present' }}</td>
+                            <td class="tl-date">{{ education.startDate ? education.startDate|date('m.Y') : '—' }} &ndash; {{ education.endDate ? education.endDate|date('m.Y') : 'Obecnie' }}</td>
                         </tr></table>
                         {% if education.degree %}<div class="tl-sub" style="color:#15803d;">{{ education.degree }}</div>{% endif %}
                         {% if education.location %}<div class="tl-desc" style="margin-top:1mm;">{{ education.location }}</div>{% endif %}

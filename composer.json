@@ -6,6 +6,7 @@
     "require": {
         "php": ">=8.4",
         "ext-ctype": "*",
+        "ext-gd": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^3.2",
         "doctrine/doctrine-migrations-bundle": "^4.0",
@@ -27,6 +28,7 @@
         "symfony/process": "8.1.*",
         "symfony/property-access": "8.1.*",
         "symfony/property-info": "8.1.*",
+        "symfony/rate-limiter": "8.1.*",
         "symfony/runtime": "8.1.*",
         "symfony/security-bundle": "8.1.*",
         "symfony/serializer": "8.1.*",

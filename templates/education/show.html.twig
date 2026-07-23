@@ -6,7 +6,7 @@
     <div class="mx-auto max-w-3xl space-y-6">
         <a href="{{ path('app_education_index') }}" class="inline-flex items-center gap-1 text-sm font-medium text-slate-500 transition hover:text-slate-900">
             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" /></svg>
-            Back to education
+            Powrót do wykształcenia
         </a>
 
         <div class="card overflow-hidden">
@@ -16,11 +16,11 @@
             </div>
             <dl class="divide-y divide-slate-100">
                 {% set rows = {
-                    'School': education.schoolName,
-                    'Degree': education.degree ?: '—',
-                    'Location': education.location ?: '—',
-                    'Start date': education.startDate ? education.startDate|date('F d, Y') : '—',
-                    'End date': education.endDate ? education.endDate|date('F d, Y') : 'Present'
+                    'Szkoła': education.schoolName,
+                    'Kierunek': education.degree ?: '—',
+                    'Lokalizacja': education.location ?: '—',
+                    'Data rozpoczęcia': education.startDate ? education.startDate|date('d.m.Y') : '—',
+                    'Data zakończenia': education.endDate ? education.endDate|date('d.m.Y') : 'Obecnie'
                 } %}
                 {% for label, value in rows %}
                     <div class="grid grid-cols-1 gap-1 px-6 py-4 sm:grid-cols-3 sm:px-8">
@@ -32,8 +32,8 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
-            <a href="{{ path('app_education_edit', {'id': education.id}) }}" class="btn-primary">Edit</a>
-            <a href="{{ path('app_education_index') }}" class="btn-ghost">Back</a>
+            <a href="{{ path('app_education_edit', {'id': education.id}) }}" class="btn-primary">Edytuj</a>
+            <a href="{{ path('app_education_index') }}" class="btn-ghost">Wstecz</a>
             <div class="ml-auto">{{ include('_delete_form.html.twig', {delete_path: 'app_education_delete', id: education.id}) }}</div>
         </div>
     </div>

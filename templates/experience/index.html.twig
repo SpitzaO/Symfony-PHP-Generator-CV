@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Experience{% endblock %}
+{% block title %}Doświadczenie{% endblock %}
 
 {% block body %}
     <div class="space-y-6">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Experience</h1>
-                <p class="mt-1 text-sm text-slate-500">{{ experiences|length }} {{ experiences|length == 1 ? 'entry' : 'entries' }}</p>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Doświadczenie</h1>
+                <p class="mt-1 text-sm text-slate-500">Liczba pozycji: {{ experiences|length }}</p>
             </div>
             <a href="{{ path('app_experience_new') }}" class="btn-primary self-start sm:self-auto">
                 <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>
-                New experience
+                Nowe doświadczenie
             </a>
         </div>
 
@@ -21,10 +21,10 @@
                     <table class="min-w-full divide-y divide-slate-200 text-sm">
                         <thead class="bg-slate-50/80">
                             <tr>
-                                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Position</th>
-                                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Company</th>
-                                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Period</th>
-                                <th class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">Actions</th>
+                                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Stanowisko</th>
+                                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Firma</th>
+                                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Okres</th>
+                                <th class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">Akcje</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
@@ -41,14 +41,14 @@
                                     {% if experience.location %}<div class="mt-0.5 text-xs text-slate-400">{{ experience.location }}</div>{% endif %}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-slate-500">
-                                    {{ experience.startDate ? experience.startDate|date('M Y') : '—' }} &ndash; {{ experience.endDate ? experience.endDate|date('M Y') : 'Present' }}
+                                    {{ experience.startDate ? experience.startDate|date('m.Y') : '—' }} &ndash; {{ experience.endDate ? experience.endDate|date('m.Y') : 'Obecnie' }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center justify-end gap-1">
-                                        <a href="{{ path('app_experience_show', {'id': experience.id}) }}" class="icon-btn" title="View" aria-label="View">
+                                        <a href="{{ path('app_experience_show', {'id': experience.id}) }}" class="icon-btn" title="Zobacz" aria-label="Zobacz">
                                             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" /><path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" /></svg>
                                         </a>
-                                        <a href="{{ path('app_experience_edit', {'id': experience.id}) }}" class="icon-btn" title="Edit" aria-label="Edit">
+                                        <a href="{{ path('app_experience_edit', {'id': experience.id}) }}" class="icon-btn" title="Edytuj" aria-label="Edytuj">
                                             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" /></svg>
                                         </a>
                                     </div>
@@ -64,9 +64,9 @@
                 <div class="grid h-14 w-14 place-items-center rounded-xl bg-cyan-50 text-cyan-600">
                     <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" /></svg>
                 </div>
-                <h3 class="mt-4 text-base font-semibold text-slate-900">No experience yet</h3>
-                <p class="mt-1 text-sm text-slate-500">Add roles you've held with responsibilities and dates.</p>
-                <a href="{{ path('app_experience_new') }}" class="btn-primary mt-6">Add experience</a>
+                <h3 class="mt-4 text-base font-semibold text-slate-900">Brak doświadczenia</h3>
+                <p class="mt-1 text-sm text-slate-500">Dodaj zajmowane stanowiska wraz z obowiązkami i datami.</p>
+                <a href="{{ path('app_experience_new') }}" class="btn-primary mt-6">Dodaj doświadczenie</a>
             </div>
         {% endif %}
     </div>

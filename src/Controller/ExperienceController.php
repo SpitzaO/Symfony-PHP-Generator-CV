@@ -20,10 +20,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class ExperienceController extends AbstractController
 {
     #[Route(name: 'app_experience_index', methods: ['GET'])]
-    public function index(ExperienceRepository $experienceRepository): Response
+    public function index(ExperienceRepository $experienceRepository, ProfileRepository $profileRepository): Response
     {
         return $this->render('experience/index.html.twig', [
-            'experiences' => $experienceRepository->findBy([], ['startDate' => 'DESC']),
+            'experiences' => $experienceRepository->findBy(
+                ['profile' => $profileRepository->findMain()],
+                ['startDate' => 'DESC'],
+            ),
         ]);
     }
 
@@ -32,7 +35,7 @@ final class ExperienceController extends AbstractController
     {
         $profile = $profileRepository->findMain();
         if (!$profile) {
-            $this->addFlash('error', 'Create your profile first.');
+            $this->addFlash('error', 'Najpierw utwórz swój profil.');
 
             return $this->redirectToRoute('app_home');
         }

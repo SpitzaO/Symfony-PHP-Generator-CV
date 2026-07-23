@@ -1,0 +1,5 @@
+# These run inside Linux containers, and this repo is developed on Windows with
+# core.autocrlf=true: a CRLF checkout would break every shebang.
+*.sh text eol=lf
+bin/console text eol=lf
+bin/phpunit text eol=lf

@@ -15,19 +15,28 @@ class ExperienceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('company')
-            ->add('position')
-            ->add('location', null, [
-                'required' => false,
-                'attr' => ['placeholder' => 'e.g. Warsaw, Poland (or Remote)'],
+            ->add('company', null, [
+                'label' => 'Firma',
             ])
-            ->add('description')
+            ->add('position', null, [
+                'label' => 'Stanowisko',
+            ])
+            ->add('location', null, [
+                'label' => 'Lokalizacja',
+                'required' => false,
+                'attr' => ['placeholder' => 'np. Warszawa, Polska (lub zdalnie)'],
+            ])
+            ->add('description', null, [
+                'label' => 'Opis',
+            ])
             ->add('startDate', DateType::class, [
+                'label' => 'Data rozpoczęcia',
                 'widget' => 'single_text',
                 'input' => 'datetime_immutable',
                 'required' => false,
             ])
             ->add('endDate', DateType::class, [
+                'label' => 'Data zakończenia',
                 'widget' => 'single_text',
                 'input' => 'datetime_immutable',
                 'required' => false,

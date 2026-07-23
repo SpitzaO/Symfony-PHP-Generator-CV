@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Competencies{% endblock %}
+{% block title %}Kompetencje{% endblock %}
 
 {% block body %}
     <div class="space-y-6">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Competencies</h1>
-                <p class="mt-1 text-sm text-slate-500">{{ competencies|length }} {{ competencies|length == 1 ? 'group' : 'groups' }}</p>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Kompetencje</h1>
+                <p class="mt-1 text-sm text-slate-500">Liczba grup: {{ competencies|length }}</p>
             </div>
             <a href="{{ path('app_competency_new') }}" class="btn-primary self-start sm:self-auto">
                 <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>
-                New competency
+                Nowa kompetencja
             </a>
         </div>
 
@@ -21,9 +21,9 @@
                     <table class="min-w-full divide-y divide-slate-200 text-sm">
                         <thead class="bg-slate-50/80">
                             <tr>
-                                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Name</th>
-                                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Items</th>
-                                <th class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">Actions</th>
+                                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Nazwa</th>
+                                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Pozycje</th>
+                                <th class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">Akcje</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
@@ -32,17 +32,17 @@
                                 <td class="px-6 py-4 font-medium text-slate-900">{{ competency.name }}</td>
                                 <td class="px-6 py-4">
                                     {% if competency.items|length > 0 %}
-                                        <span class="badge-slate">{{ competency.items|length }} {{ competency.items|length == 1 ? 'item' : 'items' }}</span>
+                                        <span class="badge-slate">{{ competency.items|length }} {{ competency.items|length == 1 ? 'pozycja' : 'pozycje' }}</span>
                                     {% else %}
                                         <span class="text-slate-400">—</span>
                                     {% endif %}
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center justify-end gap-1">
-                                        <a href="{{ path('app_competency_show', {'id': competency.id}) }}" class="icon-btn" title="View" aria-label="View">
+                                        <a href="{{ path('app_competency_show', {'id': competency.id}) }}" class="icon-btn" title="Zobacz" aria-label="Zobacz">
                                             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" /><path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" /></svg>
                                         </a>
-                                        <a href="{{ path('app_competency_edit', {'id': competency.id}) }}" class="icon-btn" title="Edit" aria-label="Edit">
+                                        <a href="{{ path('app_competency_edit', {'id': competency.id}) }}" class="icon-btn" title="Edytuj" aria-label="Edytuj">
                                             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" /></svg>
                                         </a>
                                     </div>
@@ -58,9 +58,9 @@
                 <div class="grid h-14 w-14 place-items-center rounded-xl bg-sky-50 text-sky-600">
                     <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z" /></svg>
                 </div>
-                <h3 class="mt-4 text-base font-semibold text-slate-900">No competencies yet</h3>
-                <p class="mt-1 text-sm text-slate-500">Add assessment groups like Gallup or IP121 and list their results.</p>
-                <a href="{{ path('app_competency_new') }}" class="btn-primary mt-6">Add competency</a>
+                <h3 class="mt-4 text-base font-semibold text-slate-900">Brak kompetencji</h3>
+                <p class="mt-1 text-sm text-slate-500">Dodaj grupy testów, takie jak Gallup czy IP121, i wypisz ich wyniki.</p>
+                <a href="{{ path('app_competency_new') }}" class="btn-primary mt-6">Dodaj kompetencję</a>
             </div>
         {% endif %}
     </div>

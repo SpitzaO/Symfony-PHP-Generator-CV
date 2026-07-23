@@ -17,12 +17,12 @@ class CompetencyItemType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => false,
-                'attr' => ['placeholder' => 'e.g. Achiever'],
+                'attr' => ['placeholder' => 'np. Achiever'],
             ])
             ->add('description', TextType::class, [
                 'label' => false,
                 'required' => false,
-                'attr' => ['placeholder' => 'Short description (optional)'],
+                'attr' => ['placeholder' => 'Krótki opis (opcjonalnie)'],
             ])
         ;
     }

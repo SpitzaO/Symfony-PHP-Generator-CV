@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sign in{% endblock %}
+{% block title %}Zaloguj się{% endblock %}
 
 {% block body %}
     <div class="mx-auto max-w-md py-8 sm:py-14">
         <div class="mb-6 flex flex-col items-center text-center">
             <span class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 text-sm font-bold text-white shadow-md shadow-blue-600/30">CV</span>
-            <h1 class="mt-4 text-2xl font-bold tracking-tight text-slate-900">Sign in</h1>
-            <p class="mt-1 text-sm text-slate-500">Only the owner can add or edit CV content.</p>
+            <h1 class="mt-4 text-2xl font-bold tracking-tight text-slate-900">Zaloguj się</h1>
+            <p class="mt-1 text-sm text-slate-500">Tylko właściciel może dodawać i edytować treść CV.</p>
         </div>
 
         <div class="card p-6 sm:p-8">
@@ -22,24 +22,24 @@
                 <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
                 <div>
-                    <label for="username" class="field-label">Username</label>
+                    <label for="username" class="field-label">Nazwa użytkownika</label>
                     <input type="text" id="username" name="_username" value="{{ last_username }}" autocomplete="username" required autofocus class="input" placeholder="admin">
                 </div>
 
                 <div>
-                    <label for="password" class="field-label">Password</label>
+                    <label for="password" class="field-label">Hasło</label>
                     <input type="password" id="password" name="_password" autocomplete="current-password" required class="input" placeholder="••••••••">
                 </div>
 
                 <button type="submit" class="btn-primary w-full">
                     <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" /></svg>
-                    Sign in
+                    Zaloguj się
                 </button>
             </form>
         </div>
 
         <p class="mt-6 text-center">
-            <a href="{{ path('app_home') }}" class="text-sm font-medium text-slate-500 transition hover:text-slate-900">&larr; Back to CV</a>
+            <a href="{{ path('app_home') }}" class="text-sm font-medium text-slate-500 transition hover:text-slate-900">&larr; Powrót do CV</a>
         </p>
     </div>
 {% endblock %}

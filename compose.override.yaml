@@ -1,7 +1,21 @@
+# Local development. Every published port lives here and nowhere else — compose
+# merges port lists by concatenating them, so a second declaration in compose.yaml
+# would bind both. That also keeps the base stack port-free for a deployment that
+# puts its own reverse proxy in front.
+#
+# The numbers dodge what is usually already running on the dev machine: 3306 a
+# locally installed MySQL, 8000 another container project, 8080 a host Apache.
 services:
-###> doctrine/doctrine-bundle ###
   database:
+    # Host tools only — the app and phpMyAdmin reach the container as
+    # "database:3306" over the compose network.
     ports:
-      - "5432"
-###< doctrine/doctrine-bundle ###
+      - "127.0.0.1:3307:3306"
 
+  nginx:
+    ports:
+      - "8001:80"
+
+  phpmyadmin:
+    ports:
+      - "127.0.0.1:8081:80"

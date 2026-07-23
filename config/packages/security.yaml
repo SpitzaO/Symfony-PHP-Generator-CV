@@ -25,15 +25,22 @@ security:
                 check_path: app_login
                 enable_csrf: true
                 default_target_path: app_home
+            # Single admin account on a public site: the only attack surface is
+            # password guessing, so cap the attempt rate.
+            login_throttling:
+                max_attempts: 5
+                interval: '15 minutes'
             logout:
                 path: app_logout
                 target: app_home
 
     # Note: Only the *first* matching rule is applied.
-    # The CV homepage ("/") and the login page stay public; every mutating
-    # action is guarded in the controllers with #[IsGranted('ROLE_ADMIN')].
+    # The CV homepage ("/") and the login page stay public. Everything else is
+    # admin-only. Controllers repeat this with #[IsGranted('ROLE_ADMIN')]; the
+    # rules below are the safety net for a controller that forgets the attribute.
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/(profile|experience|education|skill|competency|interest)(/|$), roles: ROLE_ADMIN }
+        - { path: ^/cv\.pdf$, roles: ROLE_ADMIN }
 
 when@test:
     security:

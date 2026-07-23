@@ -17,8 +17,8 @@ class CompetencyType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Name',
-                'attr' => ['placeholder' => 'e.g. Gallup, IP121'],
+                'label' => 'Nazwa',
+                'attr' => ['placeholder' => 'np. Gallup, IP121'],
             ])
             ->add('items', CollectionType::class, [
                 'entry_type' => CompetencyItemType::class,

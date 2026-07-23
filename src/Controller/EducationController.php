@@ -20,10 +20,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class EducationController extends AbstractController
 {
     #[Route(name: 'app_education_index', methods: ['GET'])]
-    public function index(EducationRepository $educationRepository): Response
+    public function index(EducationRepository $educationRepository, ProfileRepository $profileRepository): Response
     {
         return $this->render('education/index.html.twig', [
-            'education' => $educationRepository->findBy([], ['startDate' => 'DESC']),
+            'education' => $educationRepository->findBy(
+                ['profile' => $profileRepository->findMain()],
+                ['startDate' => 'DESC'],
+            ),
         ]);
     }
 
@@ -32,7 +35,7 @@ final class EducationController extends AbstractController
     {
         $profile = $profileRepository->findMain();
         if (!$profile) {
-            $this->addFlash('error', 'Create your profile first.');
+            $this->addFlash('error', 'Najpierw utwórz swój profil.');
 
             return $this->redirectToRoute('app_home');
         }

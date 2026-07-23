@@ -1,25 +1,64 @@
-
 services:
-###> doctrine/doctrine-bundle ###
   database:
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
+    container_name: cv-database
+    image: mysql:8.0
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-cv}
+      MYSQL_USER: ${MYSQL_USER:-cv}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-cv}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
     healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${MYSQL_ROOT_PASSWORD:-root}"]
       timeout: 5s
-      retries: 5
-      start_period: 60s
+      retries: 10
+      start_period: 30s
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - database_data:/var/lib/mysql:rw
+
+  php:
+    container_name: cv-php
+    build:
+      context: ./docker/php
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "mysql://${MYSQL_USER:-cv}:${MYSQL_PASSWORD:-cv}@database:3306/${MYSQL_DATABASE:-cv}?serverVersion=8.0.32&charset=utf8mb4"
+    volumes:
+      - .:/var/www/html:rw
+      - app_var:/var/www/html/var
+      - app_vendor:/var/www/html/vendor
+
+  nginx:
+    container_name: cv-nginx
+    image: nginx:1.29-alpine
+    depends_on:
+      - php
+    volumes:
+      - ./public:/var/www/html/public:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - default
+      - npm-network
+
+  phpmyadmin:
+    container_name: cv-phpmyadmin
+    image: phpmyadmin:5
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      PMA_HOST: database
+      UPLOAD_LIMIT: 64M
+    networks:
+      - default
+      - npm-network
 
 volumes:
-###> doctrine/doctrine-bundle ###
   database_data:
-###< doctrine/doctrine-bundle ###
+  app_var:
+  app_vendor:
+
+networks:
+  npm-network:
+    external: false

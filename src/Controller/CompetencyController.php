@@ -20,10 +20,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class CompetencyController extends AbstractController
 {
     #[Route(name: 'app_competency_index', methods: ['GET'])]
-    public function index(CompetencyRepository $competencyRepository): Response
+    public function index(CompetencyRepository $competencyRepository, ProfileRepository $profileRepository): Response
     {
         return $this->render('competency/index.html.twig', [
-            'competencies' => $competencyRepository->findBy([], ['id' => 'ASC']),
+            'competencies' => $competencyRepository->findBy(
+                ['profile' => $profileRepository->findMain()],
+                ['id' => 'ASC'],
+            ),
         ]);
     }
 
@@ -32,7 +35,7 @@ final class CompetencyController extends AbstractController
     {
         $profile = $profileRepository->findMain();
         if (!$profile) {
-            $this->addFlash('error', 'Create your profile first.');
+            $this->addFlash('error', 'Najpierw utwórz swój profil.');
 
             return $this->redirectToRoute('app_home');
         }

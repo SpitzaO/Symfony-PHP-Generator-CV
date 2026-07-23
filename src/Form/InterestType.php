@@ -15,9 +15,11 @@ class InterestType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // No explicit label: standalone forms get the default one, while the
+            // collection inside ProfileType passes 'label' => false via entry_options.
             ->add('name', TextType::class, [
-                'label' => false,
-                'attr' => ['placeholder' => 'e.g. Photography'],
+                'label' => 'Nazwa',
+                'attr' => ['placeholder' => 'np. Fotografia'],
             ])
         ;
     }

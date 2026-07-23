@@ -6,7 +6,7 @@
     <div class="mx-auto max-w-3xl space-y-6">
         <a href="{{ path('app_experience_index') }}" class="inline-flex items-center gap-1 text-sm font-medium text-slate-500 transition hover:text-slate-900">
             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" /></svg>
-            Back to experience
+            Powrót do doświadczenia
         </a>
 
         <div class="card overflow-hidden">
@@ -14,17 +14,17 @@
                 <h1 class="text-xl font-bold tracking-tight text-slate-900">{{ experience.position }}</h1>
                 <p class="mt-1 text-sm font-medium text-blue-600">{{ experience.company }}</p>
                 <p class="mt-1 text-xs text-slate-400">
-                    {{ experience.startDate ? experience.startDate|date('M Y') : '—' }} &ndash; {{ experience.endDate ? experience.endDate|date('M Y') : 'Present' }}
+                    {{ experience.startDate ? experience.startDate|date('m.Y') : '—' }} &ndash; {{ experience.endDate ? experience.endDate|date('m.Y') : 'Obecnie' }}
                 </p>
             </div>
             <dl class="divide-y divide-slate-100">
                 {% set rows = {
-                    'Company': experience.company,
-                    'Position': experience.position,
-                    'Location': experience.location ?: '—',
-                    'Start date': experience.startDate ? experience.startDate|date('F d, Y') : '—',
-                    'End date': experience.endDate ? experience.endDate|date('F d, Y') : 'Present',
-                    'Description': experience.description ?: '—'
+                    'Firma': experience.company,
+                    'Stanowisko': experience.position,
+                    'Lokalizacja': experience.location ?: '—',
+                    'Data rozpoczęcia': experience.startDate ? experience.startDate|date('d.m.Y') : '—',
+                    'Data zakończenia': experience.endDate ? experience.endDate|date('d.m.Y') : 'Obecnie',
+                    'Opis': experience.description ?: '—'
                 } %}
                 {% for label, value in rows %}
                     <div class="grid grid-cols-1 gap-1 px-6 py-4 sm:grid-cols-3 sm:px-8">
@@ -36,8 +36,8 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
-            <a href="{{ path('app_experience_edit', {'id': experience.id}) }}" class="btn-primary">Edit</a>
-            <a href="{{ path('app_experience_index') }}" class="btn-ghost">Back</a>
+            <a href="{{ path('app_experience_edit', {'id': experience.id}) }}" class="btn-primary">Edytuj</a>
+            <a href="{{ path('app_experience_index') }}" class="btn-ghost">Wstecz</a>
             <div class="ml-auto">{{ include('_delete_form.html.twig', {delete_path: 'app_experience_delete', id: experience.id}) }}</div>
         </div>
     </div>

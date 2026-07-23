@@ -15,18 +15,25 @@ class EducationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('schoolName')
-            ->add('degree')
+            ->add('schoolName', null, [
+                'label' => 'Nazwa szkoły',
+            ])
+            ->add('degree', null, [
+                'label' => 'Kierunek',
+            ])
             ->add('location', null, [
+                'label' => 'Lokalizacja',
                 'required' => false,
-                'attr' => ['placeholder' => 'e.g. Krakow, Poland'],
+                'attr' => ['placeholder' => 'np. Kraków, Polska'],
             ])
             ->add('startDate', DateType::class, [
+                'label' => 'Data rozpoczęcia',
                 'widget' => 'single_text',
                 'input' => 'datetime_immutable',
                 'required' => false,
             ])
             ->add('endDate', DateType::class, [
+                'label' => 'Data zakończenia',
                 'widget' => 'single_text',
                 'input' => 'datetime_immutable',
                 'required' => false,

@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Experience{% endblock %}
+{% block title %}Edytuj doświadczenie{% endblock %}
 
 {% block body %}
     <div class="mx-auto max-w-2xl space-y-6">
         <div class="flex items-start justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Edit experience</h1>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Edytuj doświadczenie</h1>
                 <p class="mt-1 text-sm text-slate-500">{{ experience.position }} · {{ experience.company }}</p>
             </div>
             {{ include('_delete_form.html.twig', {delete_path: 'app_experience_delete', id: experience.id}) }}
         </div>
         <div class="card p-6 sm:p-8">
-            {{ include('experience/_form.html.twig', {'button_label': 'Update'}) }}
+            {{ include('experience/_form.html.twig', {'button_label': 'Zaktualizuj'}) }}
         </div>
     </div>
 {% endblock %}

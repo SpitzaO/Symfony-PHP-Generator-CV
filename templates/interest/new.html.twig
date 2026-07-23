@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nowe zainteresowanie{% endblock %}
+
+{% block body %}
+    <div class="mx-auto max-w-2xl space-y-6">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Dodaj zainteresowanie</h1>
+            <p class="mt-1 text-sm text-slate-500">Coś, co robisz poza pracą.</p>
+        </div>
+        <div class="card p-6 sm:p-8">
+            {{ include('interest/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
