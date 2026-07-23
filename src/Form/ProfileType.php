@@ -31,6 +31,11 @@ class ProfileType extends AbstractType
             ->add('phone', null, [
                 'label' => 'Telefon',
             ])
+            ->add('githubUrl', null, [
+                'label' => 'GitHub',
+                'required' => false,
+                'attr' => ['placeholder' => 'https://github.com/nazwa'],
+            ])
             ->add('birthDate', DateType::class, [
                 'label' => 'Data urodzenia',
                 'widget' => 'single_text',

@@ -39,6 +39,11 @@ class Profile
     #[Assert\Length(max: 255)]
     private ?string $phone = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Url]
+    #[Assert\Length(max: 255)]
+    private ?string $githubUrl = null;
+
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     #[Assert\NotNull]
     private ?\DateTimeImmutable $birthDate = null;
@@ -147,6 +152,18 @@ class Profile
     public function setPhone(string $phone): static
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getGithubUrl(): ?string
+    {
+        return $this->githubUrl;
+    }
+
+    public function setGithubUrl(?string $githubUrl): static
+    {
+        $this->githubUrl = $githubUrl;
 
         return $this;
     }
