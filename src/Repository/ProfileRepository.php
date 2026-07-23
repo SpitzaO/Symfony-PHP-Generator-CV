@@ -20,7 +20,7 @@ class ProfileRepository extends AbstractRepository
     private const RELATION_QUERIES = [
         'SELECT p, e FROM App\Entity\Profile p LEFT JOIN p.experiences e WHERE p = :profile ORDER BY e.startDate DESC, e.id DESC',
         'SELECT p, ed FROM App\Entity\Profile p LEFT JOIN p.education ed WHERE p = :profile ORDER BY ed.startDate DESC, ed.id DESC',
-        'SELECT p, s FROM App\Entity\Profile p LEFT JOIN p.skills s WHERE p = :profile ORDER BY s.name ASC',
+        'SELECT p, s FROM App\Entity\Profile p LEFT JOIN p.skills s WHERE p = :profile ORDER BY s.sort ASC, s.id ASC',
         'SELECT p, i FROM App\Entity\Profile p LEFT JOIN p.interests i WHERE p = :profile ORDER BY i.name ASC',
         // Items come along in the same pass — otherwise rendering the CV costs one
         // extra query per competency.

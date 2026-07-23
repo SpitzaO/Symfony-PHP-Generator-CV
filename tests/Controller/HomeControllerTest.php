@@ -51,6 +51,29 @@ final class HomeControllerTest extends DatabaseTestCase
         self::assertStringContainsString('href="https://ada.example"', $body);
     }
 
+    public function testSkillsRenderInSortOrderNotAlphabetically(): void
+    {
+        $profile = $this->createProfile();
+        // Added in one order, but the sort values force a different display order
+        // (MySQL, Docker, PHP) that is deliberately NOT alphabetical.
+        $profile->addSkill((new Skill())->setName('MySQL')->setLevel('Junior')->setSort(1));
+        $profile->addSkill((new Skill())->setName('Docker')->setLevel('Junior')->setSort(2));
+        $profile->addSkill((new Skill())->setName('PHP')->setLevel('Junior')->setSort(3));
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+
+        $body = $this->client->request('GET', '/')->html();
+
+        $mysql = strpos($body, 'MySQL');
+        $docker = strpos($body, 'Docker');
+        $php = strpos($body, 'PHP');
+        self::assertNotFalse($mysql);
+        self::assertNotFalse($docker);
+        self::assertNotFalse($php);
+        self::assertLessThan($docker, $mysql, 'MySQL (sort 1) must render before Docker (sort 2).');
+        self::assertLessThan($php, $docker, 'Docker (sort 2) must render before PHP (sort 3).');
+    }
+
     public function testAdminControlsAreHiddenFromVisitors(): void
     {
         $this->createProfile();
