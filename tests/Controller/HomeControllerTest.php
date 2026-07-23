@@ -48,6 +48,7 @@ final class HomeControllerTest extends DatabaseTestCase
         self::assertStringContainsString('Gallup', $body);
         self::assertStringContainsString('Achiever', $body);
         self::assertStringContainsString('href="https://github.com/adalovelace"', $body);
+        self::assertStringContainsString('href="https://ada.example"', $body);
     }
 
     public function testAdminControlsAreHiddenFromVisitors(): void
@@ -90,6 +91,7 @@ final class HomeControllerTest extends DatabaseTestCase
     {
         $profile = $this->createProfile();
         $profile->setGithubUrl('https://github.com/adalovelace');
+        $profile->setWebsiteUrl('https://ada.example');
 
         $profile->addExperience(
             (new Experience())

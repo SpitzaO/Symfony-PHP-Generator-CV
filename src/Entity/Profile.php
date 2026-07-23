@@ -44,6 +44,11 @@ class Profile
     #[Assert\Length(max: 255)]
     private ?string $githubUrl = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Url]
+    #[Assert\Length(max: 255)]
+    private ?string $websiteUrl = null;
+
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     #[Assert\NotNull]
     private ?\DateTimeImmutable $birthDate = null;
@@ -164,6 +169,18 @@ class Profile
     public function setGithubUrl(?string $githubUrl): static
     {
         $this->githubUrl = $githubUrl;
+
+        return $this;
+    }
+
+    public function getWebsiteUrl(): ?string
+    {
+        return $this->websiteUrl;
+    }
+
+    public function setWebsiteUrl(?string $websiteUrl): static
+    {
+        $this->websiteUrl = $websiteUrl;
 
         return $this;
     }

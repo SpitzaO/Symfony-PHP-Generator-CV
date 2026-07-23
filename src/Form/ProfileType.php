@@ -36,6 +36,11 @@ class ProfileType extends AbstractType
                 'required' => false,
                 'attr' => ['placeholder' => 'https://github.com/nazwa'],
             ])
+            ->add('websiteUrl', null, [
+                'label' => 'Strona WWW',
+                'required' => false,
+                'attr' => ['placeholder' => 'https://twojastrona.pl'],
+            ])
             ->add('birthDate', DateType::class, [
                 'label' => 'Data urodzenia',
                 'widget' => 'single_text',
