@@ -7,23 +7,30 @@
         {% set initials = (profile.firstName|first ~ profile.lastName|first)|upper %}
 
         {% if is_granted('ROLE_ADMIN') %}
-            <div class="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl bg-blue-50 px-4 py-3 text-sm ring-1 ring-inset ring-blue-200">
+            <div class="mb-6 rounded-xl bg-blue-50 px-4 py-3 text-sm ring-1 ring-inset ring-blue-200">
+                {# Row 1: administrator badge #}
                 <span class="inline-flex items-center gap-1.5 font-semibold text-blue-800">
                     <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M9.661 2.237a.531.531 0 01.678 0 11.947 11.947 0 007.078 2.749.5.5 0 01.479.425c.069.52.104 1.05.104 1.59 0 5.162-3.26 9.563-7.834 11.256a.48.48 0 01-.332 0C4.939 16.564 1.68 12.163 1.68 7c0-.538.035-1.069.104-1.589a.5.5 0 01.48-.425 11.947 11.947 0 007.397-2.75z" clip-rule="evenodd" /></svg>
                     Tryb administratora
                 </span>
-                <a href="{{ path('app_profile_edit', {'id': profile.id}) }}" class="font-medium text-blue-700 transition hover:text-blue-900">Edytuj profil</a>
-                <a href="{{ path('app_experience_new') }}" class="font-medium text-blue-700 transition hover:text-blue-900">+ Doświadczenie</a>
-                <a href="{{ path('app_education_new') }}" class="font-medium text-blue-700 transition hover:text-blue-900">+ Wykształcenie</a>
-                <a href="{{ path('app_skill_new') }}" class="font-medium text-blue-700 transition hover:text-blue-900">+ Umiejętność</a>
-                <a href="{{ path('app_competency_new') }}" class="font-medium text-blue-700 transition hover:text-blue-900">+ Kompetencja</a>
-                <a href="{{ path('app_interest_new') }}" class="font-medium text-blue-700 transition hover:text-blue-900">+ Zainteresowanie</a>
-                <a href="{{ path('app_competency_index') }}" class="font-medium text-blue-700 transition hover:text-blue-900">Kompetencje</a>
-                <a href="{{ path('app_cv_pdf') }}" target="_blank" class="font-medium text-blue-700 transition hover:text-blue-900">Eksportuj PDF</a>
-                <a href="{{ path('app_logout') }}" class="ml-auto inline-flex items-center gap-1 font-medium text-blue-700 transition hover:text-blue-900">
-                    <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M3 4.25A2.25 2.25 0 015.25 2h5.5A2.25 2.25 0 0113 4.25v2a.75.75 0 01-1.5 0v-2a.75.75 0 00-.75-.75h-5.5a.75.75 0 00-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 00.75-.75v-2a.75.75 0 011.5 0v2A2.25 2.25 0 0110.75 18h-5.5A2.25 2.25 0 013 15.75V4.25z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M6 10a.75.75 0 01.75-.75h9.546l-1.048-.943a.75.75 0 111.004-1.114l2.5 2.25a.75.75 0 010 1.114l-2.5 2.25a.75.75 0 11-1.004-1.114l1.048-.943H6.75A.75.75 0 016 10z" clip-rule="evenodd" /></svg>
-                    Wyloguj
-                </a>
+                {# Row 2: edit / add actions #}
+                <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-blue-200/70 pt-2">
+                    <a href="{{ path('app_profile_edit', {'id': profile.id}) }}" class="font-medium text-blue-700 transition hover:text-blue-900">Edytuj profil</a>
+                    <a href="{{ path('app_experience_new') }}" class="font-medium text-blue-700 transition hover:text-blue-900">+ Doświadczenie</a>
+                    <a href="{{ path('app_education_new') }}" class="font-medium text-blue-700 transition hover:text-blue-900">+ Wykształcenie</a>
+                    <a href="{{ path('app_skill_new') }}" class="font-medium text-blue-700 transition hover:text-blue-900">+ Umiejętność</a>
+                    <a href="{{ path('app_competency_new') }}" class="font-medium text-blue-700 transition hover:text-blue-900">+ Kompetencja</a>
+                    <a href="{{ path('app_interest_new') }}" class="font-medium text-blue-700 transition hover:text-blue-900">+ Zainteresowanie</a>
+                    <a href="{{ path('app_competency_index') }}" class="font-medium text-blue-700 transition hover:text-blue-900">Kompetencje</a>
+                    <a href="{{ path('app_cv_pdf') }}" target="_blank" class="font-medium text-blue-700 transition hover:text-blue-900">Eksportuj PDF</a>
+                </div>
+                {# Row 3: logout #}
+                <div class="mt-2 flex border-t border-blue-200/70 pt-2">
+                    <a href="{{ path('app_logout') }}" class="inline-flex items-center gap-1 font-medium text-blue-700 transition hover:text-blue-900">
+                        <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M3 4.25A2.25 2.25 0 015.25 2h5.5A2.25 2.25 0 0113 4.25v2a.75.75 0 01-1.5 0v-2a.75.75 0 00-.75-.75h-5.5a.75.75 0 00-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 00.75-.75v-2a.75.75 0 011.5 0v2A2.25 2.25 0 0110.75 18h-5.5A2.25 2.25 0 013 15.75V4.25z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M6 10a.75.75 0 01.75-.75h9.546l-1.048-.943a.75.75 0 111.004-1.114l2.5 2.25a.75.75 0 010 1.114l-2.5 2.25a.75.75 0 11-1.004-1.114l1.048-.943H6.75A.75.75 0 016 10z" clip-rule="evenodd" /></svg>
+                        Wyloguj
+                    </a>
+                </div>
             </div>
         {% endif %}
 

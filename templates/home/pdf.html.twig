@@ -46,8 +46,12 @@
         .contact .cv { font-size: 8.5pt; color: #475569; padding-left: 5px; word-wrap: break-word; }
 
         /* ---- skills ---- */
-        .skill-row { margin-bottom: 3mm; }
+        /* A table keeps every level pill flush against the right edge, so the rows line
+           up in two even columns exactly like the on-screen list. */
+        .skills { width: 100%; border-collapse: collapse; }
+        .skills td { padding: 0 0 3mm 0; vertical-align: middle; }
         .skill-n { font-size: 8.5pt; font-weight: bold; color: #334155; }
+        .skill-lvl { text-align: right; white-space: nowrap; }
         /* Pills: Dompdf seats text low inside an inline-block, so the vertical padding is
            split unevenly to pull the label back onto the pill's centre line. */
         .badge { display: inline-block; border-radius: 9px; padding: 0.32pt 8px 1.93pt 8px; font-size: 7pt; font-weight: bold; line-height: normal; }
@@ -61,8 +65,11 @@
         .comp-d { color: #64748b; }
 
         /* ---- interests chips ---- */
-        .chips { line-height: 2; }
-        .chip { display: inline-block; background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; border-radius: 11px; padding: 0.58pt 9px 2.42pt 9px; font-size: 8pt; line-height: normal; margin-right: 4px; }
+        /* vertical-align: top removes the inline baseline descent (which otherwise made the
+           gap between wrapped rows far larger than the gap between chips), so the 4px right
+           and bottom margins give an equal row-gap and col-gap. */
+        .chips { line-height: normal; }
+        .chip { display: inline-block; vertical-align: top; background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; border-radius: 11px; padding: 0.58pt 9px 2.42pt 9px; font-size: 8pt; line-height: normal; margin: 0 4px 4px 0; }
 
         /* ---- about ---- */
         .about { font-size: 9pt; color: #334155; line-height: 1.6; }
@@ -138,9 +145,14 @@
         {% if profile.skills|length > 0 %}
             <div class="card"><div class="pad">
                 {{ ui.sech('#84cc16', 'Umiejętności') }}
-                {% for skill in profile.skills %}
-                    <div class="skill-row"><span class="skill-n">{{ skill.name }}</span> <span class="badge badge-emerald">{{ skill.level }}</span></div>
-                {% endfor %}
+                <table class="skills">
+                    {% for skill in profile.skills %}
+                        <tr>
+                            <td class="skill-n">{{ skill.name }}</td>
+                            <td class="skill-lvl"><span class="badge badge-emerald">{{ skill.level }}</span></td>
+                        </tr>
+                    {% endfor %}
+                </table>
             </div></div>
         {% endif %}
 
